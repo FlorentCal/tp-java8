@@ -3,9 +3,7 @@ package java8.ex06;
 import org.junit.Test;
 
 import java.util.function.Consumer;
-import java.util.function.UnaryOperator;
 import java.util.logging.Logger;
-import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
@@ -34,7 +32,8 @@ public class Stream_06_Test {
     // TODO utiliser la méthode Stream.iterate
     // TODO cette méthode doit produire le même résultat que imperativeSum
     private long iterateSum(long n) {
-        return 0;
+    	long result = Stream.iterate(0L, i -> i + 1).limit(n).reduce((first, second) -> first + second).get();
+        return result;
     }
 
     // TODO exécuter le test pour vérifier que les méthodes imperativeSum et iterateSum produisent le même résultat
@@ -53,7 +52,8 @@ public class Stream_06_Test {
     // TODO utiliser la méthode Stream.iterate
     // TODO transformer en stream parallel (.parallel())
     private long parallelIterateSum(long n) {
-        return 0;
+    	long result = Stream.iterate(0L, i -> i + 1).limit(n).parallel().reduce((first, second) -> first + second).get();
+        return result;
     }
 
     // TODO exécuter le test pour vérifier que les méthodes imperativeSum, iterateSum et parallelIterateSum produisent le même résultat
@@ -91,9 +91,9 @@ public class Stream_06_Test {
     // TODO visualiser les temps d'exécution
     @Test
     public void monitor_imperativeSum_vs_iterateSum_vs_parallelIterateSum() {
-        Logger.getAnonymousLogger().info("imperativeSum => " + /* TODO */" ms");
-        Logger.getAnonymousLogger().info("iterateSum => " + /* TODO */" ms");
-        Logger.getAnonymousLogger().info("parallelIterateSum => " + /* TODO */ " ms");
+//        Logger.getAnonymousLogger().info("imperativeSum => " + monitor(ms -> imperativeSum(NB), NB) + " ms");
+//        Logger.getAnonymousLogger().info("iterateSum => " + monitor(ms -> iterateSum(NB), NB) + " ms");
+//        Logger.getAnonymousLogger().info("parallelIterateSum => " + monitor(ms -> parallelIterateSum(NB), NB) + " ms");
     }
 
     // Quel résultat obtenez-vous ?
@@ -107,7 +107,8 @@ public class Stream_06_Test {
     // TODO compléter la méthode rangeSum
     // TODO utiliser la méthode LongStream.rangeClosed
     private long rangeSum(long n) {
-        return 0;
+    	long result = LongStream.rangeClosed(0L, n - 1).reduce((first, second) -> first + second).getAsLong();
+        return result;
     }
 
     // TODO vérifier que l'implémentation de rangeSum
@@ -117,7 +118,7 @@ public class Stream_06_Test {
         Stream.of(1L, 20L, 1000L, NB).forEach(n -> {
             long result1 = imperativeSum(n);
             long result2 = rangeSum(n);
-
+           
             assertThat(result1, is(result2));
         });
     }
@@ -126,7 +127,8 @@ public class Stream_06_Test {
     // TODO utiliser la méthode LongStream.rangeClosed
     // TODO transformer en stream parallel (.parallel())
     private long rangeParallelSum(long n) {
-        return 0;
+    	long result = LongStream.rangeClosed(0L, n - 1).parallel().reduce((first, second) -> first + second).getAsLong();
+        return result;
     }
 
     // TODO vérifier que l'implémentation de rangeParallelSum
@@ -145,11 +147,11 @@ public class Stream_06_Test {
 
     @Test
     public void monitor_imperativeSum_vs_iterateSum_vs_parallelIterateSum_vs_rangeSum_vs_rangeParallelSum() {
-        Logger.getAnonymousLogger().info("imperativeSum => " + /* TODO */ " ms");
-        Logger.getAnonymousLogger().info("iterateSum => " + /* TODO */ " ms");
-        Logger.getAnonymousLogger().info("parallelIterateSum => " + /* TODO */ " ms");
-        Logger.getAnonymousLogger().info("rangeSum => " + /* TODO */" ms");
-        Logger.getAnonymousLogger().info("rangeParallelSum => " /* TODO */ + " ms");
+        Logger.getAnonymousLogger().info("imperativeSum => " + monitor(ms -> imperativeSum(NB), NB) + " ms");
+        Logger.getAnonymousLogger().info("iterateSum => " + monitor(ms -> iterateSum(NB), NB) + " ms");
+        Logger.getAnonymousLogger().info("parallelIterateSum => " + monitor(ms -> parallelIterateSum(NB), NB) + " ms");
+        Logger.getAnonymousLogger().info("rangeSum => " + monitor(ms -> rangeSum(NB), NB) + " ms");
+        Logger.getAnonymousLogger().info("rangeParallelSum => " + monitor(ms -> rangeParallelSum(NB), NB) + " ms");
     }
 
     // Quel résultat obtenez-vous ?
